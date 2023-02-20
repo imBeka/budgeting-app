@@ -43,6 +43,14 @@ h3 {
   text-align: center;
 }
 
+.toasterContainer {
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

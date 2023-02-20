@@ -11,6 +11,10 @@ const {protect} = require('./midware/authMiddleware')
 
 connectDB()
 
+var cors = require('cors');
+app.use(cors());
+
+
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 

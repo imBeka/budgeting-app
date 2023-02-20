@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import {register, reset} from '../features/auth/authSlice';
 import { FaUser } from 'react-icons/fa'
+import Spinner from '../components/Spinner'
 
 const Registration = () => {
     const [formData, setFormData] = useState({
@@ -9,7 +14,26 @@ const Registration = () => {
         password2: '',
     })
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.auth )
+
     const { name, email, password, password2 } = formData
+
+    useEffect( () => {
+
+        if (isError) {
+            toast.error(message)
+        }
+
+        if(isSuccess) {
+            navigate('/')
+        }
+
+        dispatch(reset())
+
+    }, [user, isError, isSuccess, message, navigate, dispatch])
 
     const onChange = (e) => {
         setFormData((prev) => ({
@@ -19,7 +43,24 @@ const Registration = () => {
     }
 
     const onSubmit = (e) => {
+        console.log('submited')
         e.preventDefault()
+        if(password !== password2) {
+            toast.error("Password doesn't match")
+        } else {
+            const userData = {
+                name,
+                email,
+                password
+            }
+            
+            dispatch(register(userData))
+        }
+
+    }
+
+    if(isLoading) {
+        return <Spinner />
     }
 
     return (
@@ -83,7 +124,7 @@ const Registration = () => {
                     </div>
 
                     <div className="form-group">
-                        <button type='submit' className='btn btn-block'>Submit</button>
+                        <button type="submit" className='btn btn-block'>Submit</button>
                     </div>
                 </form>
             </section>
