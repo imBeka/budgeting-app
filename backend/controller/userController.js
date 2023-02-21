@@ -76,13 +76,9 @@ const loginUser = asyncHandler(async(req, res) => {
 // @req GET /api/users/me
 // @access Public
 const getMe = asyncHandler(async(req, res) => {
-    const {_id, name, email} = await User.findById(res.user.id)
+    // const {_id, name, email} = await User.findById(res.user.id)
 
-    res.status(200).json({
-        _id,
-        name,
-        email,
-    })
+    res.status(200).json(res.user)
 })
 
 
